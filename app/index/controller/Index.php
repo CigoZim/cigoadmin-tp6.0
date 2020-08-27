@@ -1,12 +1,12 @@
 <?php
 declare (strict_types = 1);
 
-namespace app\api\controller;
+namespace app\index\controller;
 
 class Index
 {
     public function index()
     {
-        return '您好！这是一个[api]示例应用';
+        return '您好！这是一个[index]示例应用';
     }
 }
