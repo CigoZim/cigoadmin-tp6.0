@@ -3,7 +3,7 @@ declare (strict_types=1);
 
 namespace app\cigo_admin_core\library\traites;
 
-use app\api\library\ApiErrorCode;
+use app\cigo_admin_core\library\ErrorCode;
 use app\cigo_admin_core\library\HttpReponseCode;
 
 /**
@@ -26,7 +26,7 @@ trait CheckArgs
             strlen($this->request->header("Cigo-Timestamp")) !== 10) {
             abort($this->makeApiReturn(
                 "时间戳错误", [],
-                ApiErrorCode::ApiCheck_TimeStampError,
+                ErrorCode::ApiCheck_TimeStampError,
                 HttpReponseCode::ClientError_BadRequest
             ));
         }
@@ -34,7 +34,7 @@ trait CheckArgs
         if (abs(time() - intval($this->request->header("Cigo-Timestamp"))) > 60) {
             abort($this->makeApiReturn(
                 "请求超时", [],
-                ApiErrorCode::ApiCheck_TimeStampError,
+                ErrorCode::ApiCheck_TimeStampError,
                 HttpReponseCode::ClientError_BadRequest
             ));
         }
@@ -48,16 +48,16 @@ trait CheckArgs
         if ($this->request->header("Cigo-Sign") == null) {
             abort($this->makeApiReturn(
                 "请提供参数签名", [],
-                ApiErrorCode::ApiCheck_SignError,
+                ErrorCode::ApiCheck_SignError,
                 HttpReponseCode::ClientError_BadRequest
             ));
         }
         //TODO 核对签名
         $sign = $this->createSign();
-        if ($this->request->header("Cigo-Sign") != $sign) {
+        if (env('cigo_admin.check_sign', true) && $this->request->header("Cigo-Sign") != $sign) {
             abort($this->makeApiReturn(
                 "签名错误", [],
-                ApiErrorCode::ApiCheck_SignError,
+                ErrorCode::ApiCheck_SignError,
                 HttpReponseCode::ClientError_BadRequest
             ));
         }
