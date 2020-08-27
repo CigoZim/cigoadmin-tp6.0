@@ -17,8 +17,8 @@ return [
 
     // 应用映射（自动多应用模式有效）
     'app_map' => [
-        'api-admin' => 'api_admin',
-        'api-client' => 'api_client',
+        'api_admin' => 'api_admin',
+        'api_client' => 'api_client',
         'common' => 'common',
         '*' => 'index'
     ],
