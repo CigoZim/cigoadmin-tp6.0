@@ -25,14 +25,15 @@
         "topthink/think-orm": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-image": "^1.0",
-        "ext-curl": "^7.3",
-        "ext-json": "^1.7",
-        "ext-openssl": "^7.3",
         "workerman/gatewayclient": "^3.0",
         "yansongda/pay": "^2.9",
         "alibabacloud/client": "^1.5",
+        "ext-json": "^7.4",
+        "ext-curl": "^7.4",
+        "ext-openssl": "^7.4",
+        "ext-mbstring": "^7.4",
         "qiniu/php-sdk": "^7.2",
-        "ext-mbstring": "^7.3"
+        "overtrue/wechat": "^5.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",

@@ -13,6 +13,7 @@ use app\cigo_admin_core\library\traites\CheckArgs;
  */
 class ApiBase extends BaseController
 {
+    protected $moduleName = 'admin';
 
     use CheckArgs;
 

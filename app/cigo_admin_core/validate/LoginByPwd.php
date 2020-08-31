@@ -1,7 +1,7 @@
 <?php
 declare (strict_types = 1);
 
-namespace app\api_admin\validate;
+namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
@@ -16,6 +16,7 @@ class LoginByPwd extends ApiBaseValidate
 	protected $rule = [
 	    'username'=>'require',
         'password'=>'require',
+        'module'=>'require',
     ];
     
     /**
@@ -27,5 +28,6 @@ class LoginByPwd extends ApiBaseValidate
     protected $message = [
         'username.require'=>'请填写用户名',
         'password.require'=>'请输入密码',
+        'module.require'=>'未指定登录模块',
     ];
 }
