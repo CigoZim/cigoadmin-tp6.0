@@ -20,6 +20,8 @@ Route::post(":version/login", ":version.user/login");
  */
 
 /**********************************************************************************************************************/
+// 系统菜单
+Route::get("/:version/menu", ":version.menu/index");
 // 文件上传
 Route::post("/:version/file", ":version.file/upload");
 //默认路由

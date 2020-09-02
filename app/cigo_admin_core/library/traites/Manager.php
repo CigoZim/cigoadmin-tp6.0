@@ -10,6 +10,10 @@ use app\cigo_admin_core\model\UserLoginRecord;
 use app\cigo_admin_core\validate\LoginByPwd;
 use think\facade\Cache;
 
+/**
+ * Trait Manager
+ * @package app\cigo_admin_core\library\traites
+ */
 trait Manager
 {
     public function login()
