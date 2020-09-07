@@ -37,7 +37,7 @@ class UploadMg
             $this->files = $_FILES;
         }
         if (!$configs) {
-            $this->configs = Config::get('cigo.FILE_UPLOAD');
+            $this->configs = Config::get('cigo.file_upload');
         }
 
         return $this;

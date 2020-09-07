@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace app\api_admin\controller;
 
 use app\api_admin\library\ApiBase;
+use app\cigo_admin_core\library\traites\CheckArgs;
 
 /**
  * V1版本公共基类
@@ -13,4 +14,5 @@ use app\api_admin\library\ApiBase;
  */
 class CommonV1 extends ApiBase
 {
+    use CheckArgs;
 }
