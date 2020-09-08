@@ -67,7 +67,6 @@ class UploadMg
 
     /**
      * @param string $fileName 上传文件名称
-     * @return bool
      */
     function doUpload($fileName = 'upload')
     {
@@ -77,7 +76,6 @@ class UploadMg
 
     /**
      * @param $file
-     * @return bool
      */
     private function upload($file)
     {

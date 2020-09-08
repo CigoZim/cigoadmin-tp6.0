@@ -28,25 +28,27 @@ return [
 
     /* 七牛云配置参数 */
     'qiniu_cloud' => [
-        'AccessKey' => '3T-QOTBHENyOlFpQ1M8lExVOpdCrHv6eWQzYNUZ4',
-        'SecretKey' => 'mUEXWfyeWWdpEQhb871v_RqYXvg_NSEIFoH8XC5h',
-        'host' => 'http://upload.qiniup.com',
+        'AccessKey' => env('qiniu_cloud.access_key', ''),
+        'SecretKey' => env('qiniu_cloud.secret_key', ''),
+        'host' => 'upload-z2.qiniup.com',
         'tokenExpireTime' => 60 * 60,
-        'returnBody' => '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)"}',
-        'enableCallbackServer'=>true,
-        'callbackUrl'=>'http://api-admin.cigoos.cn/v1/qiniu/notify',
+        'returnBody' => '{"key":"$(key)","hash":"$(etag)","fname":"$(fname)","fprefix":"$(fprefix)","mimeType":"$(mimeType)","fsize":"$(fsize)","bucket":"$(bucket)"}',
+        'enableCallbackServer' => true,
+        'callbackUrl' => 'http://api-admin.cigoos.cn/v1/qiniu/notify',
         'callbackBodyType' => 'application/json',
-        'callbackBody' => '{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)"}',
-        'open' => [
-            'bucket' => 'cigoadmin-open',
-        ],
-        'img' => [
-            'bucket' => 'cigoadmin-img',
-            'timeout' => 30 * 60
-        ],
-        'video' => [
-            'bucket' => 'cigoadmin-video',
-            'timeout' => 30 * 60
+        'callbackBody' => '{"key":"$(key)","hash":"$(etag)","fname":"$(fname)","fprefix":"$(fprefix)","mimeType":"$(mimeType)","fsize":"$(fsize)","bucket":"$(bucket)"}',
+        'bucketList' => [
+            'cigoadmin-open' => [
+                'cdn_host' => 'http://cdn-open.cigoadmin.com',
+            ],
+            'cigoadmin-img' => [
+                'cdn_host' => 'http://cdn-img.cigoadmin.com',
+                'timeout' => 30 * 60
+            ],
+            'cigoadmin-video' => [
+                'cdn_host' => 'http://cdn-video.cigoadmin.com',
+                'timeout' => 30 * 60
+            ]
         ]
     ]
 ];

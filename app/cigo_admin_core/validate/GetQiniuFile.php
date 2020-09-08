@@ -14,7 +14,7 @@ class GetQiniuFile extends ApiBaseValidate
      * @var array
      */
     protected $rule = [
-        'bucket' => 'require|in:open,img,video',
+        'bucket' => 'require',
         'fileKey' => 'require',
     ];
 
@@ -26,7 +26,6 @@ class GetQiniuFile extends ApiBaseValidate
      */
     protected $message = [
         'bucket.require' => '请提供空间类型',
-        'bucket.in' => '空间类型错误',
         'fileKey.require' => '请提供七牛云文件标识',
     ];
 }

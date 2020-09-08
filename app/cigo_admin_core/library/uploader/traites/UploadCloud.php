@@ -1,0 +1,143 @@
+<?php
+
+namespace app\cigo_admin_core\library\uploader\traites;
+
+use app\api_admin\library\ApiErrorCode;
+use app\api_admin\library\ApiHttpReponseCode;
+use app\cigo_admin_core\library\traites\ApiCommon;
+use app\cigo_admin_core\model\Files;
+use app\cigo_admin_core\validate\MakeQiniuToken;
+use Qiniu\Auth;
+use think\facade\Config;
+use think\facade\Log;
+
+/**
+ * Trait UploadCloud
+ * @package app\cigo_admin_core\library\traites
+ * @summary 负责后台管理中的文件云上传操作
+ */
+trait UploadCloud
+{
+    use ApiCommon;
+
+    /******************************= 七牛云：开始 =**********************************/
+    /**
+     * 创建七牛云上传凭证
+     */
+    private function makeQiniuyunToken()
+    {
+        //检查参数
+        (new MakeQiniuToken())->runCheck();
+        $qiniuConfig = Config::get('cigo.qiniu_cloud');
+        if (!isset($qiniuConfig['bucketList'][$this->args['bucket']])) {
+            return $this->makeApiReturn('存储空间不存在', [], ApiErrorCode::ClientError_ArgsWrong, ApiHttpReponseCode::ClientError_BadRequest);
+        }
+        $auth = new Auth($qiniuConfig['AccessKey'], $qiniuConfig['SecretKey']);
+        $policy = $qiniuConfig['enableCallbackServer']
+            ? [
+                'callbackUrl' => $qiniuConfig['callbackUrl'],
+                'callbackBodyType' => $qiniuConfig['callbackBodyType'],
+                'callbackBody' => $qiniuConfig['callbackBody'],
+            ]
+            : [
+                'returnBody' => $qiniuConfig['returnBody']
+            ];
+        $token = $auth->uploadToken(
+            $this->args['bucket'],
+            null,
+            $qiniuConfig['tokenExpireTime'],
+            $policy,
+            true
+        );
+
+        return $this->makeApiReturn('获取成功', [
+            'token' => $token,
+            'upload_host' => $qiniuConfig['host']
+        ]);
+    }
+
+    /**
+     * 七牛云文件上传通知
+     */
+    private function qiniuNotify()
+    {
+        Log::record('------------------------------------');
+        Log::record(json_encode($this->args));
+        Log::record('------------------------------------');
+
+        //开始对七牛回调进行鉴权
+        $qiniuConfig = Config::get('cigo.qiniu_cloud');
+        $auth = new Auth($qiniuConfig['AccessKey'], $qiniuConfig['SecretKey']);
+        $authorization = $_SERVER['HTTP_AUTHORIZATION'];
+        $callbackBody = file_get_contents('php://input');//获取回调的body信息
+        $isQiniuCallback = $auth->verifyCallback($qiniuConfig['callbackBodyType'], $authorization, $qiniuConfig['callbackUrl'], $callbackBody);
+        if (!$isQiniuCallback) {
+            $this->args['isQiniuCallback'] = $isQiniuCallback;
+            $this->args['authorization'] = $authorization;
+            $this->args['callbackBody'] = $callbackBody;
+
+            return $this->makeApiReturn('七牛回调鉴权失败', $this->args);
+        }
+
+        try {
+            //保存文件信息到数据库
+            $file = Files::where([
+                ['platform', '=', 'qiniu'],
+                ['platform_bucket', '=', $this->args['bucket']],
+                ['platform_key', '=', $this->args['key']],
+                ['name', '=', $this->args['fname']],
+                ['hash', '=', $this->args['hash']],
+            ])->findOrEmpty();
+            if ($file->isEmpty()) {
+                $ext = pathinfo($this->args['fname'], PATHINFO_EXTENSION);
+                $type = in_array($ext, ['png', 'jpg', 'jpeg', 'bmp', 'gif'])
+                    ? 'img'
+                    : (in_array($ext, ['mp4', 'rmvb', 'mov'])
+                        ? 'video'
+                        : 'file'
+                    );
+                $file = Files::create([
+                    'platform' => 'qiniu',
+                    'platform_bucket' => $this->args['bucket'],
+                    'platform_key' => $this->args['key'],
+                    'type' => $type,
+                    'name' => $this->args['fname'],
+                    'prefix' => $this->args['fprefix'],
+                    'ext' => $ext,
+                    'name_saved' => $this->args['key'],
+                    'mime' => $this->args['mimeType'],
+                    'hash' => $this->args['hash'],
+                    'size' => $this->args['fsize'],
+                    'create_time' => time(),
+                ]);
+            }
+            // 生成访问防盗链链接
+            $baseUrl = $qiniuConfig['bucketList'][$this->args['bucket']]['cdn_host'] . '/' . $this->args['key'];
+            if (stripos($this->args['bucket'], '_open') !== false) {
+                // 私有空间中的防盗链外链
+                $baseUrl .= '?e=' . (time() + $qiniuConfig['bucketList'][$this->args['bucket']]['timeout']);
+            }
+            $signedUrl = $auth->privateDownloadUrl($baseUrl);
+
+            return $this->makeApiReturn('上传成功', [
+                'id' => $file->id,
+                'platform' => $file->platform,
+                'platform_bucket' => $file->platform_bucket,
+                'platform_key' => $file->platform_key,
+                'name' => $file->name,
+                'prefix' => $file->name,
+                'ext' => $file->ext,
+                'mime' => $file->mime,
+                'hash' => $file->hash,
+                'size' => $file->size,
+                'create_time' => $file->create_time,
+                'signed_url' => $signedUrl,
+                'callbackBody' => $callbackBody
+            ]);
+        } catch (\Exception $exception) {
+            return $this->makeApiReturn($exception->getMessage(), json_encode($exception));
+        }
+    }
+
+    /******************************= 七牛云：结束 =**********************************/
+}

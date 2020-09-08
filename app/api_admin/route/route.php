@@ -25,11 +25,9 @@ Route::get("/:version/menu", ":version.menu/index");
 // 文件上传
 Route::post("/:version/file", ":version.file/upload");
 // 获取七牛云上传凭证
-Route::post("/:version/qiniu/token", ":version.qiniu/makeQiniuyunToken");
+Route::post("/:version/qiniu/token", ":version.qiniu/token");
 // 七牛云上传回调通知
 Route::post("/:version/qiniu/notify", ":version.notify/qiniu");
-// 获取七牛云上传文件
-Route::post("/:version/qiniu/file", ":version.qiniu/getQiniuyunFile");
 //默认路由
 Route::rule(
     "/:version",
