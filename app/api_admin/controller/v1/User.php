@@ -9,4 +9,9 @@ use app\cigo_admin_core\library\traites\Manager;
 class User extends CommonV1
 {
     use Manager;
+
+    public function login()
+    {
+        return $this->doLogin();
+    }
 }

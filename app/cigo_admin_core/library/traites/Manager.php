@@ -7,7 +7,12 @@ use app\cigo_admin_core\library\ErrorCode;
 use app\cigo_admin_core\library\HttpReponseCode;
 use app\cigo_admin_core\model\User as UserModel;
 use app\cigo_admin_core\model\UserLoginRecord;
+use app\cigo_admin_core\model\UserMgAuthRule;
 use app\cigo_admin_core\validate\LoginByPwd;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use Think\Exception;
 use think\facade\Cache;
 
 /**
@@ -16,7 +21,14 @@ use think\facade\Cache;
  */
 trait Manager
 {
-    public function login()
+    use Tree;
+
+    /**
+     * 管理员登录操作
+     * @return mixed
+     * @throws Exception
+     */
+    protected function doLogin()
     {
         (new LoginByPwd())->runCheck();
 
@@ -73,6 +85,44 @@ trait Manager
             'email' => $admin->email,
             'role_flag' => $admin->role_flag,
         ], ErrorCode::OK, HttpReponseCode::Success_OK);
+    }
+
+    /**
+     * 管理后台左侧菜单--分层级数据
+     * @return mixed
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    protected function menuTree(){
+        $treeList = (new UserMgAuthRule())->menuTree();
+        return $this->makeApiReturn('获取成功', $treeList);
+    }
+
+    /**
+     * 基础菜单数据，用于前端检测使用
+     * @return mixed
+     */
+    protected function menuBase()
+    {
+        $baseList= (new UserMgAuthRule())->menuBase();
+        return $this->makeApiReturn('获取成功', $baseList);
+    }
+
+    /**
+     * 获取层级和基础菜单数据
+     * @return mixed
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    protected function menuBoth(){
+        $treeList = (new UserMgAuthRule())->menuTree();
+        $baseList= (new UserMgAuthRule())->menuBase();
+        return $this->makeApiReturn('获取成功', [
+            'treeList'=>$treeList,
+            'baseList'=>$baseList
+        ]);
     }
 }
 

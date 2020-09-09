@@ -9,7 +9,7 @@ namespace app\cigo_admin_core\library\traites;
  */
 trait Tree
 {
-    public function convertToTree(&$srcDataList = array(), &$treeList = array(), $pid = 0, $pidKey = 'pid', $checkGroup = true)
+    protected function convertToTree(&$srcDataList = array(), &$treeList = array(), $pid = 0, $pidKey = 'pid', $checkGroup = true)
     {
         $group = '';
         foreach ($srcDataList as $key => $item) {

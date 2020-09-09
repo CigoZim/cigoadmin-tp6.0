@@ -21,7 +21,9 @@ Route::post(":version/login", ":version.user/login");
 
 /**********************************************************************************************************************/
 // 系统菜单
-Route::get("/:version/menu", ":version.menu/index");
+Route::get("/:version/menu/tree", ":version.menu/index");
+Route::get("/:version/menu/both", ":version.menu/both");
+Route::get("/:version/menu/base", ":version.menu/base");
 // 文件上传
 Route::post("/:version/file", ":version.file/upload");
 // 获取七牛云上传凭证
