@@ -57,13 +57,11 @@ class UserMgAuthRule extends Model
         if (empty($map)) {
             $map = [
                 ['module', '=', 'admin'],
-                ['status', '=', 1],
-                ['component_name', '<>', '']
+                ['status', '=', 1]
             ];
         }
         $baseMap = $this->where($map)
-            ->whereNotNull('component_name')
-            ->order('component_name desc')
+            ->order('id desc')
             ->select();
 
         return $baseMap ? $baseMap:[];
