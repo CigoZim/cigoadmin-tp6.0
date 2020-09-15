@@ -3,6 +3,8 @@
 namespace app\cigo_admin_core\controller;
 
 use app\cigo_admin_core\library\traites\ApiCommon;
+use app\cigo_admin_core\model\UserMgAuthRule;
+use app\cigo_admin_core\validate\AddAuth;
 
 /**
  * Trait AuthSetting
@@ -17,7 +19,12 @@ trait AuthSetting
      */
     protected function addAuthRule()
     {
-        return $this->makeApiReturn('添加成功', $this->args);
+        (new AddAuth())->runCheck();
+
+        //添加节点
+        UserMgAuthRule::create($this->args);
+
+        return $this->makeApiReturn('添加成功');
     }
 
     /**

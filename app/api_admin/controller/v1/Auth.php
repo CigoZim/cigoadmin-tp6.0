@@ -5,6 +5,7 @@ namespace app\api_admin\controller\v1;
 
 use app\api_admin\controller\CommonV1;
 use app\cigo_admin_core\controller\AuthSetting;
+use app\cigo_admin_core\validate\AddAuth;
 
 /**
  * Class Auth
@@ -17,7 +18,7 @@ class Auth extends CommonV1
     /**
      * 添加权限节点
      */
-    protected function addRule()
+    public function addRule()
     {
         return $this->addAuthRule();
     }
@@ -25,7 +26,7 @@ class Auth extends CommonV1
     /**
      * 修改权限节点
      */
-    protected function editRule()
+    public function editRule()
     {
         return $this->editAuthRule();
     }
@@ -33,7 +34,7 @@ class Auth extends CommonV1
     /**
      * 获取权限节点级联列表
      */
-    protected function getRuleList()
+    public function getRuleList()
     {
         return $this->getAuthRuleTreeList();
     }
@@ -42,7 +43,7 @@ class Auth extends CommonV1
     /**
      * 添加权限分组
      */
-    protected function addGroup()
+    public  function addGroup()
     {
         return $this->addAuthGroup();
     }
@@ -50,15 +51,16 @@ class Auth extends CommonV1
     /**
      * 修改权限分组
      */
-    protected function editGroup()
+    public function editGroup()
     {
+
         return $this->editAuthGroup();
     }
 
     /**
      * 配置权限分组权限
      */
-    protected function configGroupRule()
+    public function configGroupRule()
     {
         return $this->configAuthGroupRule();
     }
@@ -66,7 +68,7 @@ class Auth extends CommonV1
     /**
      * 获取权限分组列表
      */
-    protected function getGroupList()
+    public function getGroupList()
     {
         return $this->getAuthGroupList();
     }
