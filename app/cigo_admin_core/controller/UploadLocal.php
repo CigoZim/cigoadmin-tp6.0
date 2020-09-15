@@ -1,14 +1,13 @@
 <?php
 
-namespace app\cigo_admin_core\library\uploader\traites;
+namespace app\cigo_admin_core\controller;
 
 use app\cigo_admin_core\library\traites\ApiCommon;
 use app\cigo_admin_core\library\uploader\UploadMg;
 
 /**
  * Trait UploadLocal
- * @package app\cigo_admin_core\library\traites
- * @summary 负责后台管理中的文件本地服务器上传操作
+ * @package app\cigo_admin_core\controller
  */
 trait UploadLocal
 {

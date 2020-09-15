@@ -1,6 +1,6 @@
 <?php
 
-namespace app\cigo_admin_core\library\uploader\traites;
+namespace app\cigo_admin_core\controller;
 
 use app\api_admin\library\ApiErrorCode;
 use app\api_admin\library\ApiHttpReponseCode;
@@ -13,8 +13,7 @@ use think\facade\Log;
 
 /**
  * Trait UploadCloud
- * @package app\cigo_admin_core\library\traites
- * @summary 负责后台管理中的文件云上传操作
+ * @package app\cigo_admin_core\controller
  */
 trait UploadCloud
 {
