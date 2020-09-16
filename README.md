@@ -38,6 +38,3 @@ php think run -p 80
 
 ### 消息通信模块 workerman
 - https://www.workerman.net
-
->>>>>>> osc-tp6
-
