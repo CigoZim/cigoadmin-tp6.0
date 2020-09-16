@@ -5,7 +5,6 @@ namespace app\api_admin\controller\v1;
 
 use app\api_admin\controller\CommonV1;
 use app\cigo_admin_core\controller\AuthSetting;
-use app\cigo_admin_core\validate\AddAuth;
 
 /**
  * Class Auth
@@ -32,6 +31,13 @@ class Auth extends CommonV1
     }
 
     /**
+     * 设置权限节点状态
+     */
+    public function statusRule(){
+        return $this->setAuthRuleStatus();
+    }
+
+    /**
      * 获取权限节点级联列表
      */
     public function getRuleList()
@@ -55,6 +61,13 @@ class Auth extends CommonV1
     {
 
         return $this->editAuthGroup();
+    }
+
+    /**
+     * 设置权限节点状态
+     */
+    public function statusGroup(){
+
     }
 
     /**

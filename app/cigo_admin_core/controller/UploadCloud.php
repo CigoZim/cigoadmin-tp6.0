@@ -2,8 +2,8 @@
 
 namespace app\cigo_admin_core\controller;
 
-use app\api_admin\library\ApiErrorCode;
-use app\api_admin\library\ApiHttpReponseCode;
+use app\cigo_admin_core\library\ErrorCode;
+use app\cigo_admin_core\library\HttpReponseCode;
 use app\cigo_admin_core\library\traites\ApiCommon;
 use app\cigo_admin_core\model\Files;
 use app\cigo_admin_core\validate\MakeQiniuToken;
@@ -29,7 +29,7 @@ trait UploadCloud
         (new MakeQiniuToken())->runCheck();
         $qiniuConfig = Config::get('cigo.qiniu_cloud');
         if (!isset($qiniuConfig['bucketList'][$this->args['bucket']])) {
-            return $this->makeApiReturn('存储空间不存在', [], ApiErrorCode::ClientError_ArgsWrong, ApiHttpReponseCode::ClientError_BadRequest);
+            return $this->makeApiReturn('存储空间不存在', [], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
         $auth = new Auth($qiniuConfig['AccessKey'], $qiniuConfig['SecretKey']);
         $policy = $qiniuConfig['enableCallbackServer']

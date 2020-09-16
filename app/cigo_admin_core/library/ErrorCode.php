@@ -27,6 +27,7 @@ class ErrorCode
     const ServerError_AliCloudSendMsg = 20001; // 阿里短信发送错误
     const ServerError_PATH_AUTH = 20002; // 服务器目录权限问题
     const ServerError_DB_ERROR = 20003; // 服务器数据库错误
+    const ServerError_OTHER_ERROR = 20004; // 服务器其它错误
 
     /**
      * 终端错误

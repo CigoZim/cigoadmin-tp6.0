@@ -31,7 +31,7 @@ class UserMgAuthRule extends Model
         if (empty($map)) {
             $map = [
                 ['module', '=', 'admin'],
-                ['status', '=', 1]
+                ['status', '<>', -1]
             ];
         }
         $dataList = $this->where($map)
@@ -57,7 +57,7 @@ class UserMgAuthRule extends Model
         if (empty($map)) {
             $map = [
                 ['module', '=', 'admin'],
-                ['status', '=', 1]
+                ['status', '<>', -1]
             ];
         }
         $baseMap = $this->where($map)
