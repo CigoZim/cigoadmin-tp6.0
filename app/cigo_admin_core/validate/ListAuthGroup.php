@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class LoginByPwd extends ApiBaseValidate
+class ListAuthGroup extends ApiBaseValidate
 {
     /**
      * 定义验证规则
@@ -14,9 +14,7 @@ class LoginByPwd extends ApiBaseValidate
      * @var array
      */
     protected $rule = [
-        'username' => 'require',
-        'password' => 'require',
-        'module' => 'require',
+        'module' => 'require'
     ];
 
     /**
@@ -26,8 +24,6 @@ class LoginByPwd extends ApiBaseValidate
      * @var array
      */
     protected $message = [
-        'username.require' => '请填写用户名',
-        'password.require' => '请输入密码',
-        'module.require' => '未指定登录模块',
+        'module.require' => '为提供所属模块',
     ];
 }

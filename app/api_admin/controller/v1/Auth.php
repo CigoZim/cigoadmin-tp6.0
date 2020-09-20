@@ -33,7 +33,8 @@ class Auth extends CommonV1
     /**
      * 设置权限节点状态
      */
-    public function statusRule(){
+    public function statusRule()
+    {
         return $this->setAuthRuleStatus();
     }
 
@@ -49,7 +50,7 @@ class Auth extends CommonV1
     /**
      * 添加权限分组
      */
-    public  function addGroup()
+    public function addGroup()
     {
         return $this->addAuthGroup();
     }
@@ -66,8 +67,9 @@ class Auth extends CommonV1
     /**
      * 设置权限节点状态
      */
-    public function statusGroup(){
-
+    public function statusGroup()
+    {
+        return $this->setAuthGroupStatus();
     }
 
     /**
