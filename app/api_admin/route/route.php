@@ -9,7 +9,6 @@ Route::get('/', '/Index/index');
  * 通用路由
  */
 
-
 /**********************************************************************************************************************/
 
 /**
@@ -17,6 +16,7 @@ Route::get('/', '/Index/index');
  */
 
 /**********************************************************************************************************************/
+
 // 用户相关
 Route::post("/:version/addUser", ":version.user/addUser");//添加权限节点
 Route::post("/:version/editUser", ":version.user/editUser");//修改权限节点
@@ -45,6 +45,9 @@ Route::get("/:version/menu/base", ":version.menu/base");
 Route::post("/:version/file", ":version.file/upload");
 Route::post("/:version/qiniu/token", ":version.qiniu/token");
 Route::post("/:version/qiniu/notify", ":version.notify/qiniu");
+
+/**********************************************************************************************************************/
+
 //默认路由
 Route::rule(
     "/:version",
