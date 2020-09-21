@@ -190,4 +190,14 @@ class Encrypt
         $encryptedStr = urldecode(trim($encryptedStr));
         return openssl_decrypt($encryptedStr, config('cigo.AES_METHODS'), $key, false);
     }
+
+    /**
+     * 加密函数
+     * @param string $src 明文
+     * @return string 加密后的密文
+     */
+    public static function encrypt($src)
+    {
+        return base64_encode(hash('sha256', $src, false));
+    }
 }

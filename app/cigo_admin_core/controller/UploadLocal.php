@@ -1,22 +1,22 @@
 <?php
 
-namespace app\cigo_admin_core\library\traites;
+namespace app\cigo_admin_core\controller;
 
+use app\cigo_admin_core\library\traites\ApiCommon;
 use app\cigo_admin_core\library\uploader\UploadMg;
 
 /**
- * Trait Upload
- * @package app\cigo_admin_core\library\traites
- * @summary 负责后台管理中的文件上传操作
+ * Trait UploadLocal
+ * @package app\cigo_admin_core\controller
  */
-trait Upload
+trait UploadLocal
 {
     use ApiCommon;
 
     /**
      * 文件上传
      */
-    public function upload()
+    private function upload()
     {
         //1. 实例化上传类，并创建文件上传实例
         $upMg = new UploadMg();

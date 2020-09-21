@@ -13,7 +13,7 @@ use think\Response;
  * Class ApiCrossDomain
  * @package app\cigo_admin_core\middleware
  */
-class APiCrossDomain
+class ApiCrossDomain
 {
     protected $header = [
         'Access-Control-Allow-Origin' => '*',

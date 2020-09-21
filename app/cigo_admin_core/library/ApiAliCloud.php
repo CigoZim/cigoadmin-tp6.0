@@ -43,21 +43,21 @@ class ApiAliCloud extends AliCloud
             Log::record($phone . ':' . $result["Message"], \think\Log::NOTICE);
             abort($this->makeApiReturn(
                 $result['Message'], [],
-                ApiErrorCode::ServerError_AliCloudSendMsg,
+                ErrorCode::ServerError_AliCloudSendMsg,
                 HttpReponseCode::ServerError_InternalServer_Error
             ));
         } catch (ClientException $exception) {
             Log::record($phone . ':' . $exception->getErrorMessage(), \think\Log::NOTICE);
             abort($this->makeApiReturn(
                 "短信服务异常", [],
-                ApiErrorCode::ServerError_AliCloudSendMsg,
+                ErrorCode::ServerError_AliCloudSendMsg,
                 HttpReponseCode::ServerError_InternalServer_Error
             ));
         } catch (ServerException $exception) {
             Log::record($phone . ':' . $exception->getErrorMessage(), \think\Log::NOTICE);
             abort($this->makeApiReturn(
                 "短信服务异常", [],
-                ApiErrorCode::ServerError_AliCloudSendMsg,
+                ErrorCode::ServerError_AliCloudSendMsg,
                 HttpReponseCode::ServerError_InternalServer_Error
             ));
         }
