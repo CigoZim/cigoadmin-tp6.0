@@ -110,7 +110,7 @@ trait User
     /**
      * 获取用户列表
      */
-    protected function getUserList()
+    protected function getList()
     {
         (new ListPage())->runCheck();
 

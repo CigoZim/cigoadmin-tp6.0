@@ -173,7 +173,7 @@ trait Manager
     /**
      * 获取管理员列表
      */
-    protected function getManagerList()
+    protected function getList()
     {
         (new ListPage())->runCheck();
 

@@ -35,6 +35,6 @@ class Manager extends CommonV1
     }
 
     public function getManagerList(){
-
+        return $this->getList();
     }
 }

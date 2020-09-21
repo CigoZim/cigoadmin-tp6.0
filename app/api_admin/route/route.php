@@ -24,10 +24,10 @@ Route::post("/:version/statusUser", ":version.user/statusUser");//设置权限�
 Route::get("/:version/userList", ":version.user/getUserList");//获取权限节点列表
 // 管理员相关
 Route::post(":version/login", ":version.manager/login");
-Route::post("/:version/addManager", ":version.manager/addUser");//添加权限节点
-Route::post("/:version/editManager", ":version.manager/editUser");//修改权限节点
-Route::post("/:version/statusManager", ":version.manager/statusUser");//设置权限节点状态
-Route::get("/:version/managerList", ":version.manager/getUserList");//获取权限节点列表
+Route::post("/:version/addManager", ":version.manager/addManager");//添加权限节点
+Route::post("/:version/editManager", ":version.manager/editManager");//修改权限节点
+Route::post("/:version/statusManager", ":version.manager/statusManager");//设置权限节点状态
+Route::get("/:version/managerList", ":version.manager/getManagerList");//获取权限节点列表
 // 权限管理相关
 Route::post("/:version/addRule", ":version.auth/addRule");//添加权限节点
 Route::post("/:version/editRule", ":version.auth/editRule");//修改权限节点

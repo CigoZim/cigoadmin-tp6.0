@@ -23,6 +23,6 @@ class User extends CommonV1
     }
 
     public function getUserList(){
-
+        return $this->getList();
     }
 }
