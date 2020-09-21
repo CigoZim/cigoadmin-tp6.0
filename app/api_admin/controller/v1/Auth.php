@@ -73,14 +73,6 @@ class Auth extends CommonV1
     }
 
     /**
-     * 配置权限分组权限
-     */
-    public function configGroupRule()
-    {
-        return $this->configAuthGroupRule();
-    }
-
-    /**
      * 获取权限分组列表
      */
     public function getGroupList()

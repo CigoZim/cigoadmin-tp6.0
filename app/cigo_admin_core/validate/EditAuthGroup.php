@@ -15,10 +15,7 @@ class EditAuthGroup extends ApiBaseValidate
      */
     protected $rule = [
         'id' => 'require',
-        'title' => 'require',
-        'pid' => 'require',
-        'path' => 'require',
-        'rules' => 'require|array',
+        'rules' => 'array',
     ];
 
     /**
@@ -29,10 +26,6 @@ class EditAuthGroup extends ApiBaseValidate
      */
     protected $message = [
         'id.require' => '未提供编号',
-        'title.require' => '请配置角色名称',
-        'pid.require' => '未提供pid',
-        'path.require' => '未提供path',
-        'rules.require' => '未提供rues',
         'rules.array' => 'rules格式错误',
     ];
 }

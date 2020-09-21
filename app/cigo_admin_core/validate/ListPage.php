@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class StatusAuthRule extends ApiBaseValidate
+class ListPage extends ApiBaseValidate
 {
     /**
      * 定义验证规则
@@ -14,8 +14,8 @@ class StatusAuthRule extends ApiBaseValidate
      * @var array
      */
     protected $rule = [
-        'id' => 'require',
-        'status' => 'require|in:0,1,-1',
+        'page' => 'number',
+        'pageSize' => 'number',
     ];
 
     /**
@@ -25,8 +25,7 @@ class StatusAuthRule extends ApiBaseValidate
      * @var array
      */
     protected $message = [
-        'id.require' => '未提供id',
-        'status.require' => '请提供状态',
-        'status.in' => '状态错误',
+        'page.number' => '分页为数字',
+        'pageSize.number' => '分页大小为数字',
     ];
 }

@@ -6,14 +6,14 @@ namespace app\api_admin\controller\v1;
 use app\api_admin\controller\CommonV1;
 use app\api_admin\library\ApiErrorCode;
 use app\api_admin\library\ApiHttpReponseCode;
-use app\cigo_admin_core\controller\Manager;
+use app\cigo_admin_core\controller\Menu as TraitMenu;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
 class Menu extends CommonV1
 {
-    use Manager;
+    use TraitMenu;
 
     /**
      * 获取树形菜单

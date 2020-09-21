@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class ListAuthGroup extends ApiBaseValidate
+class EditManager extends ApiBaseValidate
 {
     /**
      * 定义验证规则
@@ -14,7 +14,10 @@ class ListAuthGroup extends ApiBaseValidate
      * @var array
      */
     protected $rule = [
-        'module' => 'require'
+        'id' => 'require:number',
+        'role_flag' => 'in:2,4',
+        'email' => 'email',
+        'auth_group' => 'array',
     ];
 
     /**
@@ -24,6 +27,10 @@ class ListAuthGroup extends ApiBaseValidate
      * @var array
      */
     protected $message = [
-        'module.require' => '为提供所属模块',
+        'id.require' => '未提供管理员编号',
+        'id.number' => '管理员编号错误',
+        'role_flag.in' => '管理员类型错误',
+        'email.email' => '邮箱格式错误',
+        'auth_group.array' => '角色格式错误',
     ];
 }

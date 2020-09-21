@@ -13,6 +13,6 @@ use think\Model;
 class User extends Model
 {
     const  ROLE_FLAGS_COMMON_USER = 1;
-    const  ROLE_FLAGS_MAIN_ADMIN = 2;
-    const  ROLE_FLAGS_COMMON_ADMIN = 4;
+    const  ROLE_FLAGS_COMMON_ADMIN = 2;
+    const  ROLE_FLAGS_MAIN_ADMIN = 4;
 }

@@ -10,12 +10,9 @@ use app\cigo_admin_core\model\UserMgAuthGroup;
 use app\cigo_admin_core\model\UserMgAuthRule;
 use app\cigo_admin_core\validate\AddAuthGroup;
 use app\cigo_admin_core\validate\AddAuthRule;
-use app\cigo_admin_core\validate\ConfigAuthGroup;
 use app\cigo_admin_core\validate\EditAuthGroup;
 use app\cigo_admin_core\validate\EditAuthRule;
-use app\cigo_admin_core\validate\ListAuthGroup;
-use app\cigo_admin_core\validate\StatusAuthGroup;
-use app\cigo_admin_core\validate\StatusAuthRule;
+use app\cigo_admin_core\validate\Status;
 
 /**
  * Trait AuthSetting
@@ -62,7 +59,7 @@ trait AuthSetting
      */
     protected function setAuthRuleStatus()
     {
-        (new StatusAuthRule())->runCheck();
+        (new Status())->runCheck();
 
         //检查节点是否存在
         $node = UserMgAuthRule::where('id', $this->args['id'])->findOrEmpty();
@@ -72,7 +69,7 @@ trait AuthSetting
         if ($node->status == $this->args['status']) {
             return $this->makeApiReturn('无需重复操作', ['id' => $this->args['id'], 'status' => $this->args['status']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
-        //修改节点
+        //状态
         UserMgAuthRule::update([
             'id' => $this->args['id'],
             'status' => $this->args['status'],
@@ -111,12 +108,12 @@ trait AuthSetting
 
         //添加节点
         $group = UserMgAuthGroup::create([
-            'module'=> empty($this->args['module']) ? 'admin': $this->args['module'],
-            'title'=>$this->args['title'],
-            'pid'=>$this->args['pid'],
-            'path'=>$this->args['path'],
-            'rules'=>json_encode($this->args['rules']),
-            'summary'=>$this->args['summary'],
+            'module' => empty($this->args['module']) ? 'admin' : $this->args['module'],
+            'title' => $this->args['title'],
+            'pid' => $this->args['pid'],
+            'path' => $this->args['path'],
+            'rules' => json_encode($this->args['rules']),
+            'summary' => $this->args['summary'],
         ]);
         $group = UserMgAuthGroup::where('id', $group->id)->find();
         return $this->makeApiReturn('添加成功', $group);
@@ -136,13 +133,12 @@ trait AuthSetting
         }
         //修改角色
         $group = UserMgAuthGroup::update([
-            'id'=>$this->args['id'],
-            'module'=> empty($this->args['module']) ? 'admin': $this->args['module'],
-            'title'=>$this->args['title'],
-            'pid'=>$this->args['pid'],
-            'path'=>$this->args['path'],
-            'rules'=>json_encode($this->args['rules']),
-            'summary'=>$this->args['summary'],
+            'id' => $this->args['id'],
+            'title' => empty($this->args['title']) ? $group->title : $this->args['title'],
+            'pid' => empty($this->args['pid']) ? $group->pid : $this->args['pid'],
+            'path' => empty($this->args['path']) ? $group->path : $this->args['path'],
+            'rules' => empty($this->args['rules']) ? $group->rules : json_encode($this->args['rules']),
+            'summary' => empty($this->args['summary']) ? $group->summary : $this->args['summary'],
         ]);
 
         return $this->makeApiReturn('修改成功', $group);
@@ -153,7 +149,7 @@ trait AuthSetting
      */
     protected function setAuthGroupStatus()
     {
-        (new StatusAuthGroup())->runCheck();
+        (new Status())->runCheck();
 
         //检查角色是否存在
         $group = UserMgAuthGroup::where('id', $this->args['id'])->findOrEmpty();
@@ -163,7 +159,7 @@ trait AuthSetting
         if ($group->status == $this->args['status']) {
             return $this->makeApiReturn('无需重复操作', ['id' => $this->args['id'], 'status' => $this->args['status']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
-        //修改角色
+        //更新状态
         UserMgAuthGroup::update([
             'id' => $this->args['id'],
             'status' => $this->args['status'],
@@ -190,17 +186,12 @@ trait AuthSetting
      */
     protected function getAuthGroupList()
     {
-        (new ListAuthGroup())->runCheck();
-
         $map = [
             ['status', '<>', -1],
             ['module', '=', empty($this->args['module']) ? $this->args['module'] : 'admin']
         ];
 
         $model = UserMgAuthGroup::where($map);
-        if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
-            $model->page($this->args['page'], $this->args['pageSize']);
-        }
         $dataList = $model->order('pid asc, sort desc, id asc')->select();
         $treeList = [];
         if ($dataList) {

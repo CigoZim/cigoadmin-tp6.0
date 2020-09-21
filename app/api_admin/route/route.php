@@ -9,9 +9,6 @@ Route::get('/', '/Index/index');
  * 通用路由
  */
 
-// 密码登录
-Route::post(":version/login", ":version.user/login");
-
 
 /**********************************************************************************************************************/
 
@@ -20,6 +17,17 @@ Route::post(":version/login", ":version.user/login");
  */
 
 /**********************************************************************************************************************/
+// 用户相关
+Route::post("/:version/addUser", ":version.user/addUser");//添加权限节点
+Route::post("/:version/editUser", ":version.user/editUser");//修改权限节点
+Route::post("/:version/statusUser", ":version.user/statusUser");//设置权限节点状态
+Route::get("/:version/userList", ":version.user/getUserList");//获取权限节点列表
+// 管理员相关
+Route::post(":version/login", ":version.manager/login");
+Route::post("/:version/addManager", ":version.manager/addUser");//添加权限节点
+Route::post("/:version/editManager", ":version.manager/editUser");//修改权限节点
+Route::post("/:version/statusManager", ":version.manager/statusUser");//设置权限节点状态
+Route::get("/:version/managerList", ":version.manager/getUserList");//获取权限节点列表
 // 权限管理相关
 Route::post("/:version/addRule", ":version.auth/addRule");//添加权限节点
 Route::post("/:version/editRule", ":version.auth/editRule");//修改权限节点
@@ -28,7 +36,6 @@ Route::get("/:version/ruleList", ":version.auth/getRuleList");//获取权限节�
 Route::post("/:version/addGroup", ":version.auth/addGroup");//添加权限分组
 Route::post("/:version/editGroup", ":version.auth/editGroup");//修改权限分组
 Route::post("/:version/statusGroup", ":version.auth/statusGroup");//设置权限分组状态
-Route::post("/:version/configGroupRule", ":version.auth/configGroupRule");//配置权限分组权限
 Route::post("/:version/groupList", ":version.auth/getGroupList");//获取权限分组列表
 // 系统菜单
 Route::get("/:version/menu/tree", ":version.menu/index");//

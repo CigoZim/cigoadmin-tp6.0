@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class ConfigAuthGroup extends ApiBaseValidate
+class Status extends ApiBaseValidate
 {
     /**
      * 定义验证规则
@@ -15,7 +15,7 @@ class ConfigAuthGroup extends ApiBaseValidate
      */
     protected $rule = [
         'id' => 'require',
-        'rules' => 'require',
+        'status' => 'require|in:0,1,-1',
     ];
 
     /**
@@ -25,7 +25,8 @@ class ConfigAuthGroup extends ApiBaseValidate
      * @var array
      */
     protected $message = [
-        'id.require' => '未提供编号',
-        'rules.require' => '请选择权限节点',
+        'id.require' => '未提供id',
+        'status.require' => '请提供状态',
+        'status.in' => '状态错误',
     ];
 }
