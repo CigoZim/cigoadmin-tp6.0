@@ -2,6 +2,7 @@
 
 namespace app\cigo_admin_core\controller;
 
+use app\cigo_admin_core\library\Encrypt;
 use app\cigo_admin_core\library\ErrorCode;
 use app\cigo_admin_core\library\HttpReponseCode;
 use app\cigo_admin_core\model\User as UserModel;
@@ -24,21 +25,13 @@ trait User
         (new AddUser())->runCheck();
 
         //添加用户
-        $user = UserModel::create([
-            'module' => empty($this->args['module']) ? 'client' : $this->args['module'],
-            'role_flag' => UserModel::ROLE_FLAGS_COMMON_USER,
-            'username' => $this->args['username'],
-            'nickname' => empty($this->args['nickname']) ? '' : $this->args['nickname'],
-            'realname' => $this->args['realname'],
-            'sex' => $this->args['sex'],
-            'phone' => $this->args['phone'],
-            'hospital' => $this->args['hospital'],
-            'department_id' => $this->args['department_id'],
-            'professional_id' => $this->args['professional_id'],
-            'create_time' => time()
-        ]);
+        empty($this->args['module']) ? $this->args['module'] = 'client' : false;
+        isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
+        $this->args['role_flag'] = UserModel::ROLE_FLAGS_COMMON_USER;
+        $this->args['create_time'] = time();
+        $user = UserModel::create($this->args);
         $user = UserModel::where('id', $user->id)->find();
-        return $this->makeApiReturn('添加成功', $user);
+        return $this->makeApiReturn('添加成功', $user->hidden(['password']));
     }
 
 
@@ -55,19 +48,14 @@ trait User
             return $this->makeApiReturn('用户不存在', ['id' => $this->args['id']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
         //修改用户
-        $user = UserModel::update([
-            'username' => empty($this->args['username']) ? null : $this->args['username'],
-            'nickname' => empty($this->args['nickname']) ? null : $this->args['nickname'],
-            'realname' => empty($this->args['realname']) ? null : $this->args['realname'],
-            'sex' => !isset($this->args['sex']) ? null : $this->args['sex'],
-            'phone' => empty($this->args['phone']) ? null : $this->args['phone'],
-            'hospital' => empty($this->args['hospital']) ? null : $this->args['hospital'],
-            'department_id' => !isset($this->args['department_id']) ? null : $this->args['department_id'],
-            'professional_id' => !isset($this->args['professional_id']) ? null : $this->args['professional_id'],
-            'update_time' => time()
-        ]);
-
-        return $this->makeApiReturn('修改成功', $user);
+        if (isset($this->args['module']) && empty($this->args['module'])) {
+            unset($this->args['module']);
+        }
+        isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
+        $this->args['update_time'] = time();
+        $user = UserModel::update($this->args);
+        $user = UserModel::where('id', $user->id)->find();
+        return $this->makeApiReturn('修改成功', $user->hidden(['password']));
     }
 
     /**
@@ -120,7 +108,7 @@ trait User
             ['module', '=', empty($this->args['module']) ? 'client' : $this->args['module']]
         ];
 
-        $model = UserModel::where($map);
+        $model = UserModel::where($map)->hidden(['password']);
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }

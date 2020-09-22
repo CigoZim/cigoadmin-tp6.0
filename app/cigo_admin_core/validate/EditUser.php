@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class AddUser extends ApiBaseValidate
+class EditUser extends ApiBaseValidate
 {
     /**
      * 定义验证规则

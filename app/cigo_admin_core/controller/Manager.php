@@ -67,6 +67,7 @@ trait Manager
         $token = Encrypt::makeToken();
         $admin->token = $token;
         $admin->token_create_time = time();
+        $admin->last_log_time= time();
         $admin->save();
         Cache::set('user_token_' . $this->moduleName . '_' . $token, $admin->id, 7 * 24 * 60 * 60);
 
@@ -95,17 +96,16 @@ trait Manager
         (new AddManager())->runCheck();
 
         //添加管理员
-        $manager = User::create([
-            'module' => empty($this->args['module']) ? 'admin' : $this->args['module'],
-            'username' => $this->args['username'],
-            'password' => Encrypt::encrypt($this->args['password']),
-            'email' => $this->args['email'],
-            'role_flag' => $this->args['role_flag'],
-            'auth_group' => empty($this->args['auth_group']) ? '[]' : json_encode($this->args['rules']),
-            'create_time' => time()
-        ]);
+        empty($this->args['module']) ? $this->args['module'] = 'admin' : false;
+        isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
+        isset($this->args['auth_group'])
+            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'])
+            : false;
+        $this->args['create_time'] = time();
+
+        $manager = User::create($this->args);
         $manager = User::where('id', $manager->id)->find();
-        return $this->makeApiReturn('添加成功', $manager);
+        return $this->makeApiReturn('添加成功', $manager->hidden(['password']));
     }
 
     /**
@@ -121,17 +121,17 @@ trait Manager
             return $this->makeApiReturn('管理员不存在', ['id' => $this->args['id']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
         //修改管理员
-        $manager = User::update([
-            'id' => $this->args['id'],
-            'username' => empty($this->args['username']) ? null : $this->args['username'],
-            'password' => empty($this->args['password']) ? null : Encrypt::encrypt($this->args['password']),
-            'email' => empty($this->args['email']) ? null : $this->args['email'],
-            'role_flag' => empty($this->args['role_flag']) ? null : $this->args['role_flag'],
-            'auth_group' => !isset($this->args['auth_group']) ? null :
-                empty($this->args['auth_group']) ? '[]' : json_encode($this->args['rules']),
-            'update_time' => time()]);
-
-        return $this->makeApiReturn('修改成功', $manager);
+        if (isset($this->args['module']) && empty($this->args['module'])) {
+            unset($this->args['module']);
+        }
+        isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
+        isset($this->args['auth_group'])
+            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'])
+            : false;
+        $this->args['update_time'] = time();
+        $manager = User::update($this->args);
+        $manager = User::where('id', $manager->id)->find();
+        return $this->makeApiReturn('修改成功', $manager->hidden(['password']));
     }
 
     /**
@@ -184,7 +184,7 @@ trait Manager
             ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']]
         ];
 
-        $model = User::where($map);
+        $model = User::where($map)->hidden(['password']);
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }

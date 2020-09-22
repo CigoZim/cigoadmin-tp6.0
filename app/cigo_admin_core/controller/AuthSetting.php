@@ -178,10 +178,10 @@ trait AuthSetting
      */
     protected function getAuthGroupList()
     {
-        $map = [
-            ['status', '<>', -1],
-            ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']]
-        ];
+        isset($this->args['status'])
+            ? $map[] = ['status', 'in', $this->args['status']]
+            : $map[] = ['status', '<>', -1];
+        $map[] = ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']];
 
         $model = UserMgAuthGroup::where($map);
         $dataList = $model->order('pid asc, sort desc, id asc')->select();

@@ -15,6 +15,7 @@ class AddUser extends ApiBaseValidate
      */
     protected $rule = [
         'username' => 'require',
+        'password' => 'require',
         'sex' => 'require|in:0,1,2',
         'phone' => 'require|mobile',
         'email' => 'require|email',
@@ -28,6 +29,7 @@ class AddUser extends ApiBaseValidate
      */
     protected $message = [
         'username.require' => '请提供用户名',
+        'password.require' => '请设置密码',
         'sex.require' => '请设置性别',
         'sex.in' => '性别错误',
         'phone.require' => '请提供手机号',
