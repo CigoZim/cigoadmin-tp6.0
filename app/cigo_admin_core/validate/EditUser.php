@@ -5,7 +5,7 @@ namespace app\cigo_admin_core\validate;
 
 use app\cigo_admin_core\library\ApiBaseValidate;
 
-class EditUser extends ApiBaseValidate
+class AddUser extends ApiBaseValidate
 {
     /**
      * 定义验证规则
@@ -14,11 +14,10 @@ class EditUser extends ApiBaseValidate
      * @var array
      */
     protected $rule = [
-        'id' => 'require:number',
-        'sex' => 'require|in:0,1,2',
+        'id' => 'require',
+        'sex' => 'in:0,1,2',
         'phone' => 'mobile',
-        'department_id' => 'number',
-        'professional_id' => 'number',
+        'email' => 'email',
     ];
 
     /**
@@ -28,11 +27,9 @@ class EditUser extends ApiBaseValidate
      * @var array
      */
     protected $message = [
-        'id.require' => '未提供用户编号',
-        'id.number' => '用户编号错误',
+        'id.require' => '未提供编号',
         'sex.in' => '性别错误',
         'phone.mobile' => '手机号格式错误',
-        'department_id.number' => '科室错误',
-        'professional_id.number' => '职称错误',
+        'email.email' => '邮箱格式错误',
     ];
 }
