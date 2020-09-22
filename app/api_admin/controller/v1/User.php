@@ -10,19 +10,23 @@ class User extends CommonV1
 {
     use TraitUser;
 
-    public function addUser(){
+    public function addUser()
+    {
         return $this->add();
     }
 
-    public function editUser(){
+    public function editUser()
+    {
         return $this->edit();
     }
 
-    public function statusUser(){
+    public function statusUser()
+    {
         return $this->setStatus();
     }
 
-    public function getUserList(){
+    public function getUserList()
+    {
         return $this->getList();
     }
 }

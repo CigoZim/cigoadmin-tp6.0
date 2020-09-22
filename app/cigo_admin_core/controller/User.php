@@ -37,7 +37,7 @@ trait User
             'professional_id' => $this->args['professional_id'],
             'create_time' => time()
         ]);
-        $user = User::where('id', $user->id)->find();
+        $user = UserModel::where('id', $user->id)->find();
         return $this->makeApiReturn('添加成功', $user);
     }
 
@@ -78,7 +78,7 @@ trait User
         (new Status())->runCheck();
 
         //检查用户是否存在
-        $user = User::where('id', $this->args['id'])->findOrEmpty();
+        $user = UserModel::where('id', $this->args['id'])->findOrEmpty();
         if ($user->isEmpty() || $user->status == -1) {
             return $this->makeApiReturn('用户不存在', ['id' => $this->args['id']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
@@ -86,7 +86,7 @@ trait User
             return $this->makeApiReturn('无需重复操作', ['id' => $this->args['id'], 'status' => $this->args['status']], ErrorCode::ClientError_ArgsWrong, HttpReponseCode::ClientError_BadRequest);
         }
         //更新状态
-        User::update([
+        UserModel::update([
             'id' => $this->args['id'],
             'status' => $this->args['status'],
         ]);
@@ -117,10 +117,10 @@ trait User
         $map = [
             ['status', '<>', -1],
             ['role_flag', '=', UserModel::ROLE_FLAGS_COMMON_USER],
-            ['module', '=', empty($this->args['module']) ? $this->args['module'] : 'client']
+            ['module', '=', empty($this->args['module']) ? 'client' : $this->args['module']]
         ];
 
-        $model = User::where($map);
+        $model = UserModel::where($map);
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }

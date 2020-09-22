@@ -22,19 +22,23 @@ class Manager extends CommonV1
         }
     }
 
-    public function addManager(){
+    public function addManager()
+    {
         return $this->add();
     }
 
-    public function editManager(){
+    public function editManager()
+    {
         return $this->edit();
     }
 
-    public function statusManager(){
+    public function statusManager()
+    {
         return $this->setStatus();
     }
 
-    public function getManagerList(){
+    public function getManagerList()
+    {
         return $this->getList();
     }
 }

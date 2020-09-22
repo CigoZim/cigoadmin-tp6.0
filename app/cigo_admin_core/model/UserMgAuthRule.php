@@ -64,6 +64,6 @@ class UserMgAuthRule extends Model
             ->order('pid asc, group_sort desc, group asc, sort desc, id asc')
             ->select();
 
-        return $baseMap ? $baseMap:[];
+        return $baseMap ? $baseMap : [];
     }
 }

@@ -61,7 +61,8 @@ class AliCloud
      *
      * @return string
      */
-    public function getCode(){
+    public function getCode()
+    {
         return $this->msgCode;
     }
 

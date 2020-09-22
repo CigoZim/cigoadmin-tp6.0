@@ -21,7 +21,8 @@ class ApiBaseValidate extends Validate
      *
      * @return static
      */
-    public static function instance(){
+    public static function instance()
+    {
         return new static();
     }
 

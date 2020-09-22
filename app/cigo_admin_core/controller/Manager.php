@@ -21,6 +21,7 @@ use think\facade\Cache;
  */
 trait Manager
 {
+
     /**
      * 管理员登录操作
      * @return mixed
@@ -180,7 +181,7 @@ trait Manager
         $map = [
             ['status', '<>', -1],
             ['role_flag', 'in', [User::ROLE_FLAGS_COMMON_ADMIN, User::ROLE_FLAGS_MAIN_ADMIN]],
-            ['module', '=', empty($this->args['module']) ? $this->args['module'] : 'admin']
+            ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']]
         ];
 
         $model = User::where($map);

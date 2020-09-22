@@ -92,14 +92,6 @@ trait AuthSetting
     }
 
     /**
-     * 获取权限节点级联列表
-     */
-    protected function getAuthRuleTreeList()
-    {
-
-    }
-
-    /**
      * 添加权限分组
      */
     protected function addAuthGroup()
@@ -188,7 +180,7 @@ trait AuthSetting
     {
         $map = [
             ['status', '<>', -1],
-            ['module', '=', empty($this->args['module']) ? $this->args['module'] : 'admin']
+            ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']]
         ];
 
         $model = UserMgAuthGroup::where($map);

@@ -26,7 +26,7 @@ class Menu extends CommonV1
         } catch (DataNotFoundException $e) {
         } catch (ModelNotFoundException $e) {
         } catch (DbException $e) {
-            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR,ApiHttpReponseCode::ServerError_InternalServer_Error);
+            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
 
@@ -34,23 +34,25 @@ class Menu extends CommonV1
      * 获取基础菜单数据
      * @return mixed
      */
-    public function base(){
+    public function base()
+    {
         try {
             return $this->menuBase();
         } catch (DataNotFoundException $e) {
         } catch (ModelNotFoundException $e) {
         } catch (DbException $e) {
-            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR,ApiHttpReponseCode::ServerError_InternalServer_Error);
+            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
 
-    public function both(){
+    public function both()
+    {
         try {
             return $this->menuBoth();
         } catch (DataNotFoundException $e) {
         } catch (ModelNotFoundException $e) {
         } catch (DbException $e) {
-            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR,ApiHttpReponseCode::ServerError_InternalServer_Error);
+            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
 }
