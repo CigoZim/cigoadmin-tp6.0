@@ -83,13 +83,6 @@ trait CheckArgs
         unset($sign_data['version']);
         ksort($sign_data);
         $sign_data_str = http_build_query($sign_data);
-//        abort($this->makeApiReturn(
-//            '1111', [
-//                $sign_data,
-//                $sign_data_str,
-//                md5($sign_data_str)
-//            ]
-//        ));
         return md5($sign_data_str);
     }
 }

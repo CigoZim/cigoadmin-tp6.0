@@ -104,7 +104,7 @@ trait Manager
         $this->args['create_time'] = time();
 
         $manager = User::create($this->args);
-        $manager = User::where('id', $manager->id)->find();
+        $manager = User::where('id', $manager->id)->append(['img_info'])->find();
         return $this->makeApiReturn('添加成功', $manager->hidden(['password']));
     }
 
@@ -130,7 +130,7 @@ trait Manager
             : false;
         $this->args['update_time'] = time();
         $manager = User::update($this->args);
-        $manager = User::where('id', $manager->id)->find();
+        $manager = User::where('id', $manager->id)->append(['img_info'])->find();
         return $this->makeApiReturn('修改成功', $manager->hidden(['password']));
     }
 
@@ -188,7 +188,7 @@ trait Manager
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }
-        $dataList = $model->order('id desc')->select();
+        $dataList = $model->order('id desc')->append(['img_info'])->select();
         return $this->makeApiReturn('获取成功', $dataList->isEmpty() ? [] : $dataList);
     }
 }

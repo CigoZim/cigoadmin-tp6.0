@@ -30,7 +30,7 @@ trait User
         $this->args['role_flag'] = UserModel::ROLE_FLAGS_COMMON_USER;
         $this->args['create_time'] = time();
         $user = UserModel::create($this->args);
-        $user = UserModel::where('id', $user->id)->find();
+        $user = UserModel::where('id', $user->id)->append(['img_info'])->find();
         return $this->makeApiReturn('添加成功', $user->hidden(['password']));
     }
 
@@ -54,7 +54,7 @@ trait User
         isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
         $this->args['update_time'] = time();
         $user = UserModel::update($this->args);
-        $user = UserModel::where('id', $user->id)->find();
+        $user = UserModel::where('id', $user->id)->append(['img_info'])->find();
         return $this->makeApiReturn('修改成功', $user->hidden(['password']));
     }
 
@@ -112,7 +112,7 @@ trait User
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }
-        $dataList = $model->order('id desc')->select();
+        $dataList = $model->order('id desc')->append(['img_info'])->select();
         return $this->makeApiReturn('获取成功', $dataList->isEmpty() ? [] : $dataList);
     }
 }
