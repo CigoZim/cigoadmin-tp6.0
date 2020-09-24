@@ -15,7 +15,7 @@ CigoAdmin-西谷后台后端：Tp6.0版本
 
 ## 前端仓库
 
-- https://github.com/CigoZim/cigoadmin-tp6.0
+- https://github.com/CigoZim/cigoadmin-vue3.0
 
 ## 数据库文件
 ```
