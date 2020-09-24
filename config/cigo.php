@@ -34,7 +34,7 @@ return [
         'tokenExpireTime' => 60 * 60,
         'returnBody' => '{"key":"$(key)","hash":"$(etag)","fname":"$(fname)","fprefix":"$(fprefix)","mimeType":"$(mimeType)","fsize":"$(fsize)","bucket":"$(bucket)"}',
         'enableCallbackServer' => true,
-        'callbackUrl' => 'http://api-admin.cigoos.cn/v1/qiniu/notify',
+        'callbackUrl' => env('qiniu_cloud.callback_url', $_SERVER['host'] . '/v1/qiniu/notif'),
         'callbackBodyType' => 'application/json',
         'callbackBody' => '{"key":"$(key)","hash":"$(etag)","fname":"$(fname)","fprefix":"$(fprefix)","mimeType":"$(mimeType)","fsize":"$(fsize)","bucket":"$(bucket)"}',
         'bucketList' => [

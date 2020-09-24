@@ -55,7 +55,9 @@ trait Manager
 
         //检测密码
         if ($admin->password !== Encrypt::encrypt($this->args['password'])) {
-            return $this->makeApiReturn('密码错误', [], ErrorCode::ClientError_AuthError, HttpReponseCode::ClientError_Forbidden);
+            return $this->makeApiReturn('密码错误', [
+//                'password'=>Encrypt::encrypt('123456')
+            ], ErrorCode::ClientError_AuthError, HttpReponseCode::ClientError_Forbidden);
         }
 
         //检查状态
@@ -67,7 +69,7 @@ trait Manager
         $token = Encrypt::makeToken();
         $admin->token = $token;
         $admin->token_create_time = time();
-        $admin->last_log_time= time();
+        $admin->last_log_time = time();
         $admin->save();
         Cache::set('user_token_' . $this->moduleName . '_' . $token, $admin->id, 7 * 24 * 60 * 60);
 
@@ -105,7 +107,7 @@ trait Manager
 
         $manager = User::create($this->args);
         $manager = User::where('id', $manager->id)->append(['img_info'])->find();
-        return $this->makeApiReturn('添加成功', $manager->hidden(['password']));
+        return $this->makeApiReturn('添加成功', $manager->hidden(['token', 'token_create_time', 'password']));
     }
 
     /**
@@ -131,7 +133,7 @@ trait Manager
         $this->args['update_time'] = time();
         $manager = User::update($this->args);
         $manager = User::where('id', $manager->id)->append(['img_info'])->find();
-        return $this->makeApiReturn('修改成功', $manager->hidden(['password']));
+        return $this->makeApiReturn('修改成功', $manager->hidden(['token', 'token_create_time', 'password']));
     }
 
     /**
@@ -184,7 +186,7 @@ trait Manager
             ['module', '=', empty($this->args['module']) ? 'admin' : $this->args['module']]
         ];
 
-        $model = User::where($map)->hidden(['password']);
+        $model = User::where($map)->hidden(['token', 'token_create_time', 'password']);
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }

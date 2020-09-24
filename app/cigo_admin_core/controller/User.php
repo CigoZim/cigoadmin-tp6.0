@@ -31,7 +31,7 @@ trait User
         $this->args['create_time'] = time();
         $user = UserModel::create($this->args);
         $user = UserModel::where('id', $user->id)->append(['img_info'])->find();
-        return $this->makeApiReturn('添加成功', $user->hidden(['password']));
+        return $this->makeApiReturn('添加成功', $user->hidden(['token', 'token_create_time', 'password']));
     }
 
 
@@ -55,7 +55,7 @@ trait User
         $this->args['update_time'] = time();
         $user = UserModel::update($this->args);
         $user = UserModel::where('id', $user->id)->append(['img_info'])->find();
-        return $this->makeApiReturn('修改成功', $user->hidden(['password']));
+        return $this->makeApiReturn('修改成功', $user->hidden(['token', 'token_create_time', 'password']));
     }
 
     /**
@@ -108,7 +108,7 @@ trait User
             ['module', '=', empty($this->args['module']) ? 'client' : $this->args['module']]
         ];
 
-        $model = UserModel::where($map)->hidden(['password']);
+        $model = UserModel::where($map)->hidden(['token', 'token_create_time', 'password']);
         if (!empty($this->args['page']) && !empty($this->args['pageSize'])) {
             $model->page($this->args['page'], $this->args['pageSize']);
         }
