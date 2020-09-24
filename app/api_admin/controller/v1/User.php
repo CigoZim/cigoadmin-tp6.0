@@ -5,6 +5,7 @@ namespace app\api_admin\controller\v1;
 
 use app\api_admin\controller\CommonV1;
 use app\cigo_admin_core\controller\User as TraitUser;
+use Symfony\Component\VarDumper\Command\Descriptor\DumpDescriptorInterface;
 
 class User extends CommonV1
 {

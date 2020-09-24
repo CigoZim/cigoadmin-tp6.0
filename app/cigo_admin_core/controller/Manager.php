@@ -40,7 +40,7 @@ trait Manager
         $admin = User::where([
             ['username|phone', '=', $this->args['username']],
             ['module', '=', $this->args['module']],
-        ])->findOrEmpty();
+        ])->append(['img_info'])->findOrEmpty();
         if ($admin->isEmpty()) {
             return $this->makeApiReturn('用户不存在', [], ErrorCode::ClientError_AuthError, HttpReponseCode::ClientError_Forbidden);
         }
@@ -77,18 +77,8 @@ trait Manager
         $this->args['password'] = isset($this->args['password']) ? Encrypt::encrypt($this->args['password']) : '';//避免客户密码泄露
         UserLoginRecord::recordSuccess($admin->id, $this->args);
 
-        return $this->makeApiReturn('登录成功', [
-            'id' => $admin->id,
-            'token' => $admin->token,
-            'username' => $admin->username,
-            'phone' => $admin->phone,
-            'nickname' => $admin->nickname,
-            'realname' => $admin->realname,
-            'email' => $admin->email,
-            'role_flag' => $admin->role_flag,
-        ], ErrorCode::OK, HttpReponseCode::Success_OK);
+        return $this->makeApiReturn('登录成功', $admin->hidden(['password']), ErrorCode::OK, HttpReponseCode::Success_OK);
     }
-
 
     /**
      * 添加管理员
