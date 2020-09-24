@@ -39,14 +39,14 @@ return [
         'callbackBody' => '{"key":"$(key)","hash":"$(etag)","fname":"$(fname)","fprefix":"$(fprefix)","mimeType":"$(mimeType)","fsize":"$(fsize)","bucket":"$(bucket)"}',
         'bucketList' => [
             'cigoadmin-open' => [
-                'cdn_host' => '//cdn-open.cigoadmin.com',
+                'cdn_host' => 'https://cdn-open.cigoadmin.com',
             ],
             'cigoadmin-img' => [
-                'cdn_host' => '//cdn-img.cigoadmin.com',
+                'cdn_host' => 'https://cdn-img.cigoadmin.com',
                 'timeout' => 30 * 60
             ],
             'cigoadmin-video' => [
-                'cdn_host' => '//cdn-video.cigoadmin.com',
+                'cdn_host' => 'https://cdn-video.cigoadmin.com',
                 'timeout' => 30 * 60
             ]
         ]

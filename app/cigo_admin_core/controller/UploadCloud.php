@@ -51,7 +51,6 @@ trait UploadCloud
 
         return $this->makeApiReturn('获取成功', [
             'token' => $token,
-            'callbackUrl' => $qiniuConfig['callbackUrl'],
             'upload_host' => $qiniuConfig['host']
         ]);
     }
