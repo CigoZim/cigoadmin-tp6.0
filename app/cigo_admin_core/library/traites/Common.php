@@ -8,6 +8,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Env;
+use think\facade\Request;
 use think\Model;
 
 /**
@@ -64,7 +65,7 @@ trait Common
                 break;
             default:
                 //TODO byzim
-                $path = "//" . (
+                $path = Request::scheme()."://" . (
                     $isCdn
                         ? Env::get('server.app_cdn_domain')
                         : Env::get('server.app_domain')
