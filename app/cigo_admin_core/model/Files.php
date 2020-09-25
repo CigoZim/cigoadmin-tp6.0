@@ -7,6 +7,7 @@ use think\Model;
 
 class Files extends Model
 {
+    protected $table = 'cg_files';
     use Common;
 
     protected $auto = [];
