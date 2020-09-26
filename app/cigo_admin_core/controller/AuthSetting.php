@@ -74,21 +74,7 @@ trait AuthSetting
             'id' => $this->args['id'],
             'status' => $this->args['status'],
         ]);
-
-        $tips = '';
-        switch ($this->args['status']) {
-            case 0:
-                $tips = '禁用成功';
-                break;
-            case 1:
-                $tips = '启用成功';
-                break;
-            case -1:
-                $tips = '删除成功';
-                break;
-        }
-
-        return $this->makeApiReturn($tips);
+        return $this->makeApiReturn($this->makeStatusTips());
     }
 
     /**
@@ -156,21 +142,7 @@ trait AuthSetting
             'id' => $this->args['id'],
             'status' => $this->args['status'],
         ]);
-
-        $tips = '';
-        switch ($this->args['status']) {
-            case 0:
-                $tips = '禁用成功';
-                break;
-            case 1:
-                $tips = '启用成功';
-                break;
-            case -1:
-                $tips = '删除成功';
-                break;
-        }
-
-        return $this->makeApiReturn($tips);
+        return $this->makeApiReturn($this->makeStatusTips());
     }
 
     /**

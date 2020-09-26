@@ -5,6 +5,7 @@ namespace app\cigo_admin_core\controller;
 use app\cigo_admin_core\library\Encrypt;
 use app\cigo_admin_core\library\ErrorCode;
 use app\cigo_admin_core\library\HttpReponseCode;
+use app\cigo_admin_core\library\traites\ApiCommon;
 use app\cigo_admin_core\model\User;
 use app\cigo_admin_core\model\UserLoginRecord;
 use app\cigo_admin_core\validate\AddManager;
@@ -21,6 +22,7 @@ use think\facade\Cache;
  */
 trait Manager
 {
+    use ApiCommon;
 
     /**
      * 管理员登录操作
@@ -146,21 +148,7 @@ trait Manager
             'id' => $this->args['id'],
             'status' => $this->args['status'],
         ]);
-
-        $tips = '';
-        switch ($this->args['status']) {
-            case 0:
-                $tips = '禁用成功';
-                break;
-            case 1:
-                $tips = '启用成功';
-                break;
-            case -1:
-                $tips = '删除成功';
-                break;
-        }
-
-        return $this->makeApiReturn($tips);
+        return $this->makeApiReturn($this->makeStatusTips());
     }
 
     /**

@@ -29,4 +29,20 @@ trait ApiCommon
         ];
         return json($msg_data, $httpcode);
     }
+
+    protected function makeStatusTips(){
+        $tips = '';
+        switch ($this->args['status']) {
+            case 0:
+                $tips = '禁用成功';
+                break;
+            case 1:
+                $tips = '启用成功';
+                break;
+            case -1:
+                $tips = '删除成功';
+                break;
+        }
+        return $tips;
+    }
 }
