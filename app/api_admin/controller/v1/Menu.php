@@ -7,9 +7,6 @@ use app\api_admin\controller\CommonV1;
 use app\api_admin\library\ApiErrorCode;
 use app\api_admin\library\ApiHttpReponseCode;
 use app\cigo_admin_core\controller\Menu as TraitMenu;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 
 class Menu extends CommonV1
 {
@@ -17,16 +14,13 @@ class Menu extends CommonV1
 
     /**
      * 获取树形菜单
-     * @return false|mixed|string
      */
     public function index()
     {
         try {
-            return $this->menuTree();
-        } catch (DataNotFoundException $e) {
-        } catch (ModelNotFoundException $e) {
-        } catch (DbException $e) {
-            return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
+                return $this->menuTree();
+        } catch (\Exception $e) {
+            return $this->makeApiReturn('服务器错误', ['aa'=>$e->getMessage()], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
 
@@ -38,9 +32,7 @@ class Menu extends CommonV1
     {
         try {
             return $this->menuBase();
-        } catch (DataNotFoundException $e) {
-        } catch (ModelNotFoundException $e) {
-        } catch (DbException $e) {
+        } catch (\Exception $e) {
             return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
@@ -49,9 +41,7 @@ class Menu extends CommonV1
     {
         try {
             return $this->menuBoth();
-        } catch (DataNotFoundException $e) {
-        } catch (ModelNotFoundException $e) {
-        } catch (DbException $e) {
+        } catch (\Exception $e) {
             return $this->makeApiReturn('服务器错误', [], ApiErrorCode::ServerError_DB_ERROR, ApiHttpReponseCode::ServerError_InternalServer_Error);
         }
     }
