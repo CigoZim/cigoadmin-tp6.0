@@ -14,6 +14,8 @@ use think\Model;
  */
 class UserLoginRecord extends Model
 {
+    protected $table = 'cg_user_login_record';
+
     public static function recordSuccess($userId, $args)
     {
         UserLoginRecord::create([

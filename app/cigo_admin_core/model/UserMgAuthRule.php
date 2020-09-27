@@ -16,6 +16,8 @@ use think\Model;
  */
 class UserMgAuthRule extends Model
 {
+    protected $table = 'cg_user_mg_auth_Rule';
+
     use Tree;
 
     /**

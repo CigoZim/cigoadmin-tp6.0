@@ -5,6 +5,7 @@ namespace app\cigo_admin_core\controller;
 use app\cigo_admin_core\library\Encrypt;
 use app\cigo_admin_core\library\ErrorCode;
 use app\cigo_admin_core\library\HttpReponseCode;
+use app\cigo_admin_core\library\traites\ApiCommon;
 use app\cigo_admin_core\model\User as UserModel;
 use app\cigo_admin_core\validate\AddUser;
 use app\cigo_admin_core\validate\EditUser;
@@ -17,6 +18,8 @@ use app\cigo_admin_core\validate\Status;
  */
 trait User
 {
+    use ApiCommon;
+
     /**
      * 添加用户
      */
@@ -78,21 +81,7 @@ trait User
             'id' => $this->args['id'],
             'status' => $this->args['status'],
         ]);
-
-        $tips = '';
-        switch ($this->args['status']) {
-            case 0:
-                $tips = '禁用成功';
-                break;
-            case 1:
-                $tips = '启用成功';
-                break;
-            case -1:
-                $tips = '删除成功';
-                break;
-        }
-
-        return $this->makeApiReturn($tips);
+        return $this->makeApiReturn($this->makeStatusTips());
     }
 
     /**
