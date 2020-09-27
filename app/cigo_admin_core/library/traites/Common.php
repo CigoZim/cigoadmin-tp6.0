@@ -65,7 +65,7 @@ trait Common
                 break;
             default:
                 //TODO byzim
-                $path = Request::scheme()."://" . (
+                $path = Request::scheme() . "://" . (
                     $isCdn
                         ? Env::get('server.app_cdn_domain')
                         : Env::get('server.app_domain')

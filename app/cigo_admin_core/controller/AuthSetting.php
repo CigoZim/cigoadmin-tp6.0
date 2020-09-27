@@ -90,6 +90,7 @@ trait AuthSetting
             'title' => $this->args['title'],
             'pid' => $this->args['pid'],
             'path' => $this->args['path'],
+            'sort' => $this->args['sort'],
             'rules' => json_encode($this->args['rules']),
             'summary' => $this->args['summary'],
         ]);
@@ -116,6 +117,7 @@ trait AuthSetting
             'pid' => empty($this->args['pid']) ? $group->pid : $this->args['pid'],
             'path' => empty($this->args['path']) ? $group->path : $this->args['path'],
             'rules' => empty($this->args['rules']) ? $group->rules : json_encode($this->args['rules']),
+            'sort' => empty($this->args['sort']) ? $group->sort : $this->args['sort'],
             'summary' => empty($this->args['summary']) ? $group->summary : $this->args['summary'],
         ]);
 
