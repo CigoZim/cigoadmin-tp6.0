@@ -10,7 +10,6 @@ use app\cigo_admin_core\validate\MakeQiniuToken;
 use Qiniu\Auth;
 use think\facade\Config;
 use think\facade\Log;
-use think\facade\Request;
 
 /**
  * Trait UploadCloud
