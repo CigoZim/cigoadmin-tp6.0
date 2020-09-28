@@ -91,7 +91,7 @@ trait AuthSetting
             'pid' => $this->args['pid'],
             'path' => $this->args['path'],
             'sort' => $this->args['sort'],
-            'rules' => json_encode($this->args['rules']),
+            'rules' => json_encode($this->args['rules'], JSON_UNESCAPED_UNICODE),
             'summary' => $this->args['summary'],
         ]);
         $group = UserMgAuthGroup::where('id', $group->id)->find();
@@ -116,7 +116,7 @@ trait AuthSetting
             'title' => empty($this->args['title']) ? $group->title : $this->args['title'],
             'pid' => empty($this->args['pid']) ? $group->pid : $this->args['pid'],
             'path' => empty($this->args['path']) ? $group->path : $this->args['path'],
-            'rules' => empty($this->args['rules']) ? $group->rules : json_encode($this->args['rules']),
+            'rules' => empty($this->args['rules']) ? $group->rules : json_encode($this->args['rules'], JSON_UNESCAPED_UNICODE),
             'sort' => empty($this->args['sort']) ? $group->sort : $this->args['sort'],
             'summary' => empty($this->args['summary']) ? $group->summary : $this->args['summary'],
         ]);

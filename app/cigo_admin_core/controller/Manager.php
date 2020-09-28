@@ -93,7 +93,7 @@ trait Manager
         empty($this->args['module']) ? $this->args['module'] = 'admin' : false;
         isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
         isset($this->args['auth_group'])
-            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'])
+            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'], JSON_UNESCAPED_UNICODE)
             : false;
         $this->args['create_time'] = time();
 
@@ -120,7 +120,7 @@ trait Manager
         }
         isset($this->args['password']) ? $this->args['password'] = Encrypt::encrypt($this->args['password']) : false;
         isset($this->args['auth_group'])
-            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'])
+            ? $this->args['auth_group'] = empty($this->args['auth_group']) ? '[]' : json_encode($this->args['auth_group'], JSON_UNESCAPED_UNICODE)
             : false;
         $this->args['update_time'] = time();
         $manager = User::update($this->args);

@@ -62,7 +62,7 @@ trait UploadCloud
     private function qiniuNotify()
     {
         Log::record('------------------------------------');
-        Log::record(json_encode($this->args));
+        Log::record(json_encode($this->args), JSON_UNESCAPED_UNICODE);
         Log::record('------------------------------------');
 
         //开始对七牛回调进行鉴权
@@ -135,7 +135,7 @@ trait UploadCloud
                 'callbackBody' => $callbackBody
             ]);
         } catch (\Exception $exception) {
-            return $this->makeApiReturn($exception->getMessage(), json_encode($exception));
+            return $this->makeApiReturn($exception->getMessage(), json_encode($exception), JSON_UNESCAPED_UNICODE);
         }
     }
 

@@ -94,7 +94,7 @@ class AliCloud
                     'PhoneNumbers' => $phone,
                     'SignName' => $this->signName,
                     'TemplateCode' => $this->templateCode,
-                    'TemplateParam' => json_encode(['code' => $code]),
+                    'TemplateParam' => json_encode(['code' => $code], JSON_UNESCAPED_UNICODE),
                 ],
             ])
             ->request();
