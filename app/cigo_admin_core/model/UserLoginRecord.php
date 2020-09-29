@@ -24,7 +24,7 @@ class UserLoginRecord extends Model
             'client_type' => ClientTye::getClientType(),
             'if_success' => 1,
             'note' => '登录成功',
-            'params' => json_encode($args),
+            'params' => json_encode($args, JSON_UNESCAPED_UNICODE),
             'create_time' => time()
         ]);
     }

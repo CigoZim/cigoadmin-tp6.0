@@ -10,6 +10,7 @@ use app\cigo_admin_core\validate\MakeQiniuToken;
 use Qiniu\Auth;
 use think\facade\Config;
 use think\facade\Log;
+use think\Model;
 
 /**
  * Trait UploadCloud
@@ -61,7 +62,7 @@ trait UploadCloud
     private function qiniuNotify()
     {
         Log::record('------------------------------------');
-        Log::record(json_encode($this->args));
+        Log::record(json_encode($this->args), JSON_UNESCAPED_UNICODE);
         Log::record('------------------------------------');
 
         //开始对七牛回调进行鉴权
@@ -134,9 +135,47 @@ trait UploadCloud
                 'callbackBody' => $callbackBody
             ]);
         } catch (\Exception $exception) {
-            return $this->makeApiReturn($exception->getMessage(), json_encode($exception));
+            return $this->makeApiReturn($exception->getMessage(), json_encode($exception), JSON_UNESCAPED_UNICODE);
         }
     }
 
-    /******************************= 七牛云：结束 =**********************************/
+    /******************************= 七牛云：结束 =*********************************/
+
+    /**
+     * @param $data
+     * @param string $key
+     * @return array|Model|null
+     */
+    private function getFileInfo($data, $key = 'img')
+    {
+        if (empty($data[$key])) {
+            return null;
+        }
+        $info = Files::where('id', $data[$key])->findOrEmpty();
+        if ($info->isEmpty()) {
+            return null;
+        }
+        switch ($info['platform']) {
+            case 'qiniu'://七牛云
+                {
+                    // 生成访问防盗链链接
+                    $qiniuConfig = Config::get('cigo.qiniu_cloud');
+                    $auth = new Auth($qiniuConfig['AccessKey'], $qiniuConfig['SecretKey']);
+                    $baseUrl = $qiniuConfig['bucketList'][$info['platform_bucket']]['cdn_host'] . '/' . $info['platform_key'];
+                    if (stripos($info['platform_bucket'], '_open') !== false) {
+                        // 私有空间中的防盗链外链
+                        $baseUrl .= '?e=' . (time() + $qiniuConfig['bucketList'][$info['platform_bucket']]['timeout']);
+                    }
+                    $info['signed_url'] = $auth->privateDownloadUrl($baseUrl);
+                }
+                break;
+            case 'tencent'://腾讯云
+            case 'aliyun'://阿里云
+            case 'local'://本地服务器
+            default:
+                break;
+        }
+
+        return $info;
+    }
 }

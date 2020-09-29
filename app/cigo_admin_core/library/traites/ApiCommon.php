@@ -30,7 +30,8 @@ trait ApiCommon
         return json($msg_data, $httpcode);
     }
 
-    protected function makeStatusTips(){
+    protected function makeStatusTips()
+    {
         $tips = '';
         switch ($this->args['status']) {
             case 0:
